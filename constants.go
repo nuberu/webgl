@@ -621,9 +621,67 @@ const (
 	WAIT_FAILED                                   GLEnum = 0x911D
 )
 
+const (
+	UNSIGNED_INT_24_8_WEBGL                      GLEnum = 0x84FA
+	COMPRESSED_RGBA_ATC_INTERPOLATED_ALPHA_WEBGL GLEnum = 0x87EE
+	COMPRESSED_RGB_ATC_WEBGL                     GLEnum = 0x8C92
+	COMPRESSED_RGBA_ATC_EXPLICIT_ALPHA_WEBGL     GLEnum = 0x8C92
+	COMPRESSED_RGB_ETC1_WEBGL                    GLEnum = 0x8D64
+	UNPACK_FLIP_Y_WEBGL                          GLEnum = 0x9240
+	UNPACK_PREMULTIPLY_ALPHA_WEBGL               GLEnum = 0x9241
+	CONTEXT_LOST_WEBGL                           GLEnum = 0x9242
+	UNPACK_COLORSPACE_CONVERSION_WEBGL           GLEnum = 0x9243
+	BROWSER_DEFAULT_WEBGL                        GLEnum = 0x9244
+	UNMASKED_VENDOR_WEBGL                        GLEnum = 0x9245
+	UNMASKED_RENDERER_WEBGL                      GLEnum = 0x9246
+	MAX_CLIENT_WAIT_TIMEOUT_WEBGL                GLEnum = 0x9247
+	COLOR_ATTACHMENT0_WEBGL                      GLEnum = 0x8CE0
+	COLOR_ATTACHMENT1_WEBGL                      GLEnum = 0x8CE1
+	COLOR_ATTACHMENT2_WEBGL                      GLEnum = 0x8CE2
+	COLOR_ATTACHMENT3_WEBGL                      GLEnum = 0x8CE3
+	COLOR_ATTACHMENT4_WEBGL                      GLEnum = 0x8CE4
+	COLOR_ATTACHMENT5_WEBGL                      GLEnum = 0x8CE5
+	COLOR_ATTACHMENT6_WEBGL                      GLEnum = 0x8CE6
+	COLOR_ATTACHMENT7_WEBGL                      GLEnum = 0x8CE7
+	COLOR_ATTACHMENT8_WEBGL                      GLEnum = 0x8CE8
+	COLOR_ATTACHMENT9_WEBGL                      GLEnum = 0x8CE9
+	COLOR_ATTACHMENT10_WEBGL                     GLEnum = 0x8CEA
+	COLOR_ATTACHMENT11_WEBGL                     GLEnum = 0x8CEB
+	COLOR_ATTACHMENT12_WEBGL                     GLEnum = 0x8CEC
+	COLOR_ATTACHMENT13_WEBGL                     GLEnum = 0x8CED
+	COLOR_ATTACHMENT14_WEBGL                     GLEnum = 0x8CEE
+	COLOR_ATTACHMENT15_WEBGL                     GLEnum = 0x8CEF
+	DRAW_BUFFER0_WEBGL                           GLEnum = 0x8825
+	DRAW_BUFFER1_WEBGL                           GLEnum = 0x8826
+	DRAW_BUFFER2_WEBGL                           GLEnum = 0x8827
+	DRAW_BUFFER3_WEBGL                           GLEnum = 0x8828
+	DRAW_BUFFER4_WEBGL                           GLEnum = 0x8829
+	DRAW_BUFFER5_WEBGL                           GLEnum = 0x882A
+	DRAW_BUFFER6_WEBGL                           GLEnum = 0x882B
+	DRAW_BUFFER7_WEBGL                           GLEnum = 0x882C
+	DRAW_BUFFER8_WEBGL                           GLEnum = 0x882D
+	DRAW_BUFFER9_WEBGL                           GLEnum = 0x882E
+	DRAW_BUFFER10_WEBGL                          GLEnum = 0x882F
+	DRAW_BUFFER11_WEBGL                          GLEnum = 0x8830
+	DRAW_BUFFER12_WEBGL                          GLEnum = 0x8831
+	DRAW_BUFFER13_WEBGL                          GLEnum = 0x8832
+	DRAW_BUFFER14_WEBGL                          GLEnum = 0x8833
+	DRAW_BUFFER15_WEBGL                          GLEnum = 0x8834
+	MAX_COLOR_ATTACHMENTS_WEBGL                  GLEnum = 0x8CDF
+	MAX_DRAW_BUFFERS_WEBGL                       GLEnum = 0x8824
+)
+
 type ShaderType GLEnum
 
 const (
 	VertexShaderType   ShaderType = ShaderType(VERTEX_SHADER)
 	FragmentShaderType ShaderType = ShaderType(FRAGMENT_SHADER)
+)
+
+type PowerPreference string
+
+const (
+	DefaultPower         PowerPreference = "default"
+	HighPerformancePower PowerPreference = "high-performance"
+	LowPower             PowerPreference = "low-power"
 )

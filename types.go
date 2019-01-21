@@ -4,6 +4,37 @@ import (
 	"syscall/js"
 )
 
+type ActiveInfo struct {
+	name     string
+	size     int
+	infoType GLEnum
+}
+
+func (ai *ActiveInfo) GetName() string {
+	return ai.name
+}
+
+func (ai *ActiveInfo) GetSize() int {
+	return ai.size
+}
+
+func (ai *ActiveInfo) GetType() GLEnum {
+	return ai.infoType
+}
+
+type Attributes struct {
+	Alpha                        bool
+	Antialias                    bool
+	Depth                        bool
+	FailIfMajorPerformanceCaveat bool
+	PowerPreference              PowerPreference
+	PremultipliedAlpha           bool
+	PreserveDrawingBuffer        bool
+	Stencil                      bool
+	Storage                      string // Only Chromium
+	WillReadFrequently           bool   // Only Firefox
+}
+
 type Buffer struct {
 	js js.Value
 }
