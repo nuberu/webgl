@@ -2,7 +2,7 @@ package extensions
 
 import "syscall/js"
 
-const LoseContextExtensionName ExtensionName = "WEBGL_lose_context"
+const LoseContextExtensionName Name = "WEBGL_lose_context"
 
 type LoseContext struct {
 	Extension

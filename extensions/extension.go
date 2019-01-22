@@ -2,7 +2,7 @@ package extensions
 
 import "syscall/js"
 
-type ExtensionName string
+type Name string
 
 type IExtension interface {
 	GetJs() js.Value
