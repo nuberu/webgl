@@ -133,6 +133,10 @@ func (c *RenderingContext) BufferDataUI(target types.GLEnum, srcData []uint32, u
 	c.js.Call("bufferData",  uint32(target), js.TypedArrayOf(srcData), uint32(usage))
 }
 
+func (c *RenderingContext) BufferDataUI16(target types.GLEnum, srcData []uint16, usage types.GLEnum) {
+	c.js.Call("bufferData",  uint32(target), js.TypedArrayOf(srcData), uint32(usage))
+}
+
 // WebGL 2.0
 func (c *RenderingContext) BufferDataWithOffset(target types.GLEnum, srcData []float32, usage types.GLEnum, srcOffset, length uint) {
 	c.js.Call("bufferData",  uint32(target), js.TypedArrayOf(srcData), uint32(usage), srcOffset, length)
