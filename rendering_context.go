@@ -49,7 +49,7 @@ func (c *RenderingContext) GetCanvas() js.Value {
 }
 
 // Specifies which texture unit to make active
-func (c *RenderingContext) ActiveTexture(textureUnit uint) {
+func (c *RenderingContext) ActiveTexture(textureUnit uint32) {
 	c.js.Call("activeTexture", textureUnit)
 }
 
@@ -57,24 +57,44 @@ func (c *RenderingContext) AttachShader(program *types.Program, shader *types.Sh
 	c.js.Call("attachShader", program.GetJs(), shader.GetJs())
 }
 
-func (c *RenderingContext) BindAttribLocation(program *types.Program, index uint, name string) {
-	c.js.Call("bindAttribLocation", program.GetJs(), index, name)
+func (c *RenderingContext) BindAttribLocation(program *types.Program, index int, name string) {
+	if program == nil {
+		c.js.Call("bindAttribLocation", js.Null(), index, name)
+	} else {
+		c.js.Call("bindAttribLocation", program.GetJs(), index, name)
+	}
 }
 
 func (c *RenderingContext) BindBuffer(target types.GLEnum, buffer *types.Buffer) {
-	c.js.Call("bindBuffer", target, buffer.GetJs())
+	if buffer == nil {
+		c.js.Call("bindBuffer", uint32(target), js.Null())
+	} else {
+		c.js.Call("bindBuffer", uint32(target), buffer.GetJs())
+	}
 }
 
 func (c *RenderingContext) BindFramebuffer(target types.GLEnum, buffer *types.FrameBuffer) {
-	c.js.Call("bindFramebuffer", target, buffer.GetJs())
+	if buffer == nil {
+		c.js.Call("bindFramebuffer", uint32(target), js.Null())
+	} else {
+		c.js.Call("bindFramebuffer", uint32(target), buffer.GetJs())
+	}
 }
 
 func (c *RenderingContext) BindRenderbuffer(target types.GLEnum, buffer *types.RenderBuffer) {
-	c.js.Call("bindRenderbuffer", target, buffer.GetJs())
+	if buffer == nil {
+		c.js.Call("bindFramebuffer", uint32(target), js.Null())
+	} else {
+		c.js.Call("bindRenderbuffer", uint32(target), buffer.GetJs())
+	}
 }
 
 func (c *RenderingContext) BindTexture(target types.GLEnum, texture *types.Texture) {
-	c.js.Call("bindTexture", target, texture.GetJs())
+	if texture == nil {
+		c.js.Call("bindTexture", uint32(target), js.Null())
+	} else {
+		c.js.Call("bindTexture", uint32(target), texture.GetJs())
+	}
 }
 
 func (c *RenderingContext) BlendColor(r, g, b, a float32) {
@@ -82,84 +102,84 @@ func (c *RenderingContext) BlendColor(r, g, b, a float32) {
 }
 
 func (c *RenderingContext) BlendEquation(mode types.GLEnum) {
-	c.js.Call("blendEquation", mode)
+	c.js.Call("blendEquation", uint32(mode))
 }
 
 func (c *RenderingContext) BlendEquationSeparate(modeRGB types.GLEnum, modeAlpha types.GLEnum) {
-	c.js.Call("blendEquationSeparate", modeRGB, modeAlpha)
+	c.js.Call("blendEquationSeparate", uint32(modeRGB), uint32(modeAlpha))
 }
 
 func (c *RenderingContext) BlendFunc(sFactor types.GLEnum, dFactor types.GLEnum) {
-	c.js.Call("blendFunc", sFactor, dFactor)
+	c.js.Call("blendFunc", uint32(sFactor), uint32(dFactor))
 }
 
 func (c *RenderingContext) BlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha types.GLEnum) {
-	c.js.Call("blendFuncSeparate", srcRGB, dstRGB, srcAlpha, dstAlpha)
+	c.js.Call("blendFuncSeparate", uint32(srcRGB), uint32(dstRGB), uint32(srcAlpha), uint32(dstAlpha))
 }
 
 func (c *RenderingContext) BufferDataBySize(target types.GLEnum, size int, usage types.GLEnum) {
-	c.js.Call("bufferData", target, size, usage)
+	c.js.Call("bufferData", uint32(target), size, uint32(usage))
 }
 
 func (c *RenderingContext) BufferData(target types.GLEnum, srcData []float32, usage types.GLEnum) {
-	c.js.Call("bufferData", target, js.TypedArrayOf(srcData), usage)
+	c.js.Call("bufferData", uint32(target), js.TypedArrayOf(srcData), uint32(usage))
 }
 
 func (c *RenderingContext) BufferDataI(target types.GLEnum, srcData []int, usage types.GLEnum) {
-	c.js.Call("bufferData", target, js.TypedArrayOf(srcData), usage)
+	c.js.Call("bufferData",  uint32(target), js.TypedArrayOf(srcData), uint32(usage))
 }
 
-func (c *RenderingContext) BufferDataUI(target types.GLEnum, srcData []uint, usage types.GLEnum) {
-	c.js.Call("bufferData", target, js.TypedArrayOf(srcData), usage)
+func (c *RenderingContext) BufferDataUI(target types.GLEnum, srcData []uint32, usage types.GLEnum) {
+	c.js.Call("bufferData",  uint32(target), js.TypedArrayOf(srcData), uint32(usage))
 }
 
 // WebGL 2.0
 func (c *RenderingContext) BufferDataWithOffset(target types.GLEnum, srcData []float32, usage types.GLEnum, srcOffset, length uint) {
-	c.js.Call("bufferData", target, js.TypedArrayOf(srcData), usage, srcOffset, length)
+	c.js.Call("bufferData",  uint32(target), js.TypedArrayOf(srcData), uint32(usage), srcOffset, length)
 }
 
 // WebGL 2.0
 func (c *RenderingContext) BufferDataIWithOffset(target types.GLEnum, srcData []int, usage types.GLEnum, srcOffset, length uint) {
-	c.js.Call("bufferData", target, js.TypedArrayOf(srcData), usage, srcOffset, length)
+	c.js.Call("bufferData",  uint32(target), js.TypedArrayOf(srcData), uint32(usage), srcOffset, length)
 }
 
 // WebGL 2.0
 func (c *RenderingContext) BufferDataUIWithOffset(target types.GLEnum, srcData []uint, usage types.GLEnum, srcOffset, length uint) {
-	c.js.Call("bufferData", target, js.TypedArrayOf(srcData), usage, srcOffset, length)
+	c.js.Call("bufferData",  uint32(target), js.TypedArrayOf(srcData), uint32(usage), srcOffset, length)
 }
 
 func (c *RenderingContext) BufferSubData(target types.GLEnum, offset int, srcData []float32) {
-	c.js.Call("bufferSubData", target, offset, js.TypedArrayOf(srcData))
+	c.js.Call("bufferSubData",  uint32(target), offset, js.TypedArrayOf(srcData))
 }
 
 func (c *RenderingContext) BufferSubDataI(target types.GLEnum, offset int, srcData []int) {
-	c.js.Call("bufferSubData", target, offset, js.TypedArrayOf(srcData))
+	c.js.Call("bufferSubData",  uint32(target), offset, js.TypedArrayOf(srcData))
 }
 
 func (c *RenderingContext) BufferSubDataUI(target types.GLEnum, offset int, srcData []uint) {
-	c.js.Call("bufferSubData", target, offset, js.TypedArrayOf(srcData))
+	c.js.Call("bufferSubData",  uint32(target), offset, js.TypedArrayOf(srcData))
 }
 
 // WebGL 2.0
 func (c *RenderingContext) BufferSubDataWithOffset(target types.GLEnum, dstByteOffset int, srcData []float32, srcOffset, length uint) {
-	c.js.Call("bufferSubData", target, dstByteOffset, js.TypedArrayOf(srcData), srcOffset, length)
+	c.js.Call("bufferSubData",  uint32(target), dstByteOffset, js.TypedArrayOf(srcData), srcOffset, length)
 }
 
 // WebGL 2.0
 func (c *RenderingContext) BufferSubDataIWithOffset(target types.GLEnum, dstByteOffset int, srcData []int, srcOffset, length uint) {
-	c.js.Call("bufferSubData", target, dstByteOffset, js.TypedArrayOf(srcData), srcOffset, length)
+	c.js.Call("bufferSubData",  uint32(target), dstByteOffset, js.TypedArrayOf(srcData), srcOffset, length)
 }
 
 // WebGL 2.0
 func (c *RenderingContext) BufferSubDataUIWithOffset(target types.GLEnum, dstByteOffset int, srcData []uint, srcOffset, length uint) {
-	c.js.Call("bufferSubData", target, dstByteOffset, js.TypedArrayOf(srcData), srcOffset, length)
+	c.js.Call("bufferSubData",  uint32(target), dstByteOffset, js.TypedArrayOf(srcData), srcOffset, length)
 }
 
 func (c *RenderingContext) CheckFramebufferStatus(target types.GLEnum) {
-	c.js.Call("checkFramebufferStatus", target)
+	c.js.Call("checkFramebufferStatus",  uint32(target))
 }
 
-func (c *RenderingContext) Clear(mask uint) {
+func (c *RenderingContext) Clear(mask uint32) {
 	c.js.Call("clear", mask)
 }
 
@@ -188,55 +208,55 @@ func (c *RenderingContext) CompileShader(shader *types.Shader) {
 }
 
 func (c *RenderingContext) CompressedTexImage2D(target types.GLEnum, level int, internalFormat types.GLEnum, width int, height int, border int) {
-	c.js.Call("compressedTexImage2D", target, level, internalFormat, width, height, border)
+	c.js.Call("compressedTexImage2D", uint32(target), level, uint32(internalFormat), width, height, border)
 }
 
 func (c *RenderingContext) CompressedTexImage2DIn(target types.GLEnum, level int, internalFormat types.GLEnum, width int, height int, border int, pixels []float32) {
-	c.js.Call("compressedTexImage2D", target, level, internalFormat, width, height, border, js.TypedArrayOf(pixels))
+	c.js.Call("compressedTexImage2D", uint32(target), level, uint32(internalFormat), width, height, border, js.TypedArrayOf(pixels))
 }
 
 // WebGL 2.0
 func (c *RenderingContext) CompressedTexImage2DOffset(target types.GLEnum, level int, internalFormat types.GLEnum, width int, height int, border int, imageSize int, offset int) {
-	c.js.Call("compressedTexImage2D", target, level, internalFormat, width, height, border, imageSize, offset)
+	c.js.Call("compressedTexImage2D", uint32(target), level, uint32(internalFormat), width, height, border, imageSize, offset)
 }
 
 // WebGL 2.0
 func (c *RenderingContext) CompressedTexImage2DFromOffset(target types.GLEnum, level int, internalFormat types.GLEnum, width int, height int, border int, srcData []float32, srcOffset int, srcLengthOverride int) {
-	c.js.Call("compressedTexImage2D", target, level, internalFormat, width, height, border, js.TypedArrayOf(srcData), srcOffset, srcLengthOverride)
+	c.js.Call("compressedTexImage2D", uint32(target), level, uint32(internalFormat), width, height, border, js.TypedArrayOf(srcData), srcOffset, srcLengthOverride)
 }
 
 // WebGL 2.0
 func (c *RenderingContext) CompressedTexImage3DOffset(target types.GLEnum, level int, internalFormat types.GLEnum, width int, height int, depth int, border int, imageSize int, offset int) {
-	c.js.Call("compressedTexImage3D", target, level, internalFormat, width, height, depth, border, imageSize, offset)
+	c.js.Call("compressedTexImage3D", uint32(target), level, uint32(internalFormat), width, height, depth, border, imageSize, offset)
 }
 
 // WebGL 2.0
 func (c *RenderingContext) CompressedTexImage3DFromOffset(target types.GLEnum, level int, internalFormat types.GLEnum, width int, height int, depth int, border int, srcData []float32, srcOffset int, srcLengthOverride int) {
-	c.js.Call("compressedTexImage3D", target, level, internalFormat, width, height, depth, border, js.TypedArrayOf(srcData), srcOffset, srcLengthOverride)
+	c.js.Call("compressedTexImage3D", uint32(target), level, uint32(internalFormat), width, height, depth, border, js.TypedArrayOf(srcData), srcOffset, srcLengthOverride)
 }
 
 func (c *RenderingContext) CompressedTexSubImage2D(target types.GLEnum, level int, xOffset, yOffset int, width, height int, format types.GLEnum) {
-	c.js.Call("compressedTexSubImage2D", target, level, xOffset, yOffset, width, height, format)
+	c.js.Call("compressedTexSubImage2D", uint32(target), level, xOffset, yOffset, width, height, uint32(format))
 }
 
 func (c *RenderingContext) CompressedTexSubImage2DIn(target types.GLEnum, level int, xOffset, yOffset int, width, height int, format types.GLEnum, pixels []float32) {
-	c.js.Call("compressedTexSubImage2D", target, level, xOffset, yOffset, width, height, format, js.TypedArrayOf(pixels))
+	c.js.Call("compressedTexSubImage2D", uint32(target), level, xOffset, yOffset, width, height, uint32(format), js.TypedArrayOf(pixels))
 }
 
 func (c *RenderingContext) CompressedTexSubImage2DFrom(target types.GLEnum, level int, xOffset, yOffset int, width, height int, format types.GLEnum, imageSize int, offset int) {
-	c.js.Call("compressedTexSubImage2D", target, level, xOffset, yOffset, width, height, format, imageSize, offset)
+	c.js.Call("compressedTexSubImage2D", uint32(target), level, xOffset, yOffset, width, height, uint32(format), imageSize, offset)
 }
 
 func (c *RenderingContext) CompressedTexSubImage2DFromOffset(target types.GLEnum, level int, xOffset, yOffset int, width, height int, format types.GLEnum, srcData []float32, srcOffset int, srcLengthOverride int) {
-	c.js.Call("compressedTexSubImage2D", target, level, xOffset, yOffset, width, height, format, js.TypedArrayOf(srcData), srcOffset, srcLengthOverride)
+	c.js.Call("compressedTexSubImage2D", uint32(target), level, xOffset, yOffset, width, height, uint32(format), js.TypedArrayOf(srcData), srcOffset, srcLengthOverride)
 }
 
 func (c *RenderingContext) CopyTexImage2D(target types.GLEnum, level int, internalFormat types.GLEnum, x, y int, width, height int, border int) {
-	c.js.Call("copyTexImage2D", target, level, internalFormat, x, y, width, height, border)
+	c.js.Call("copyTexImage2D", uint32(target), level, uint32(internalFormat), x, y, width, height, border)
 }
 
 func (c *RenderingContext) CopyTexSubImage2D(target types.GLEnum, level int, xOffset, yOffset int, x, y int, width, height int) {
-	c.js.Call("copyTexSubImage2D", target, level, xOffset, yOffset, x, y, width, height)
+	c.js.Call("copyTexSubImage2D", uint32(target), level, xOffset, yOffset, x, y, width, height)
 }
 
 func (c *RenderingContext) CreateBuffer() *types.Buffer {
@@ -256,7 +276,7 @@ func (c *RenderingContext) CreateRenderBuffer() *types.RenderBuffer {
 }
 
 func (c *RenderingContext) CreateShader(shaderType types.GLEnum) *types.Shader {
-	return types.NewShader(c.js.Call("createShader", shaderType))
+	return types.NewShader(c.js.Call("createShader", uint32(shaderType)))
 }
 
 func (c *RenderingContext) CreateFragmentShader() *types.Shader {
@@ -272,7 +292,7 @@ func (c *RenderingContext) CreateTexture() *types.Texture {
 }
 
 func (c *RenderingContext) CullFace(mode types.GLEnum) {
-	c.js.Call("cullFace", mode)
+	c.js.Call("cullFace", uint32(mode))
 }
 
 func (c *RenderingContext) DeleteBuffer(buffer *types.Buffer) {
@@ -300,7 +320,7 @@ func (c *RenderingContext) DeleteTexture(texture *types.Shader) {
 }
 
 func (c *RenderingContext) DepthFunc(depth types.GLEnum) {
-	c.js.Call("depthFunc", depth)
+	c.js.Call("depthFunc", uint32(depth))
 }
 
 func (c *RenderingContext) DepthMask(flag bool) {
@@ -316,7 +336,7 @@ func (c *RenderingContext) DetachShader(program *types.Program, shader *types.Sh
 }
 
 func (c *RenderingContext) Disable(cap types.GLEnum) {
-	c.js.Call("disable", cap)
+	c.js.Call("disable", uint32(cap))
 }
 
 func (c *RenderingContext) DisableVertexAttribArray(index uint) {
@@ -324,15 +344,15 @@ func (c *RenderingContext) DisableVertexAttribArray(index uint) {
 }
 
 func (c *RenderingContext) DrawArrays(mode types.GLEnum, first int, count int) {
-	c.js.Call("drawArrays", mode, first, count)
+	c.js.Call("drawArrays", uint32(mode), first, count)
 }
 
-func (c *RenderingContext) DrawElements(mode types.GLEnum, count int, valueType types.GLEnum, offset int) {
-	c.js.Call("drawElements", mode, count, valueType, offset)
+func (c *RenderingContext) DrawElements(mode types.GLEnum, count int, valueType types.GLEnum, offset int64) {
+	c.js.Call("drawElements", uint32(mode), count, uint32(valueType), offset)
 }
 
 func (c *RenderingContext) Enable(cap types.GLEnum) {
-	c.js.Call("enable", cap)
+	c.js.Call("enable", uint32(cap))
 }
 
 func (c *RenderingContext) EnableVertexAttribArray(index int) {
@@ -348,19 +368,19 @@ func (c *RenderingContext) Flush() {
 }
 
 func (c *RenderingContext) FramebufferRenderbuffer(target types.GLEnum, attachment types.GLEnum, renderBufferTarget types.GLEnum, renderBuffer *types.RenderBuffer) {
-	c.js.Call("framebufferRenderbuffer", target, attachment, renderBufferTarget, renderBuffer.GetJs())
+	c.js.Call("framebufferRenderbuffer", uint32(target), uint32(attachment), uint32(renderBufferTarget), renderBuffer.GetJs())
 }
 
 func (c *RenderingContext) FramebufferTexture2D(target types.GLEnum, attachment types.GLEnum, texTarget types.GLEnum, texture *types.Texture, level int) {
-	c.js.Call("framebufferTexture2D", target, attachment, texTarget, texture.GetJs(), level)
+	c.js.Call("framebufferTexture2D", uint32(target), uint32(attachment), uint32(texTarget), texture.GetJs(), level)
 }
 
 func (c *RenderingContext) FrontFace(mode types.GLEnum) {
-	c.js.Call("frontFace", mode)
+	c.js.Call("frontFace", uint32(mode))
 }
 
 func (c *RenderingContext) GenerateMipmap(target types.GLEnum) {
-	c.js.Call("generateMipmap", target)
+	c.js.Call("generateMipmap", uint32(target))
 }
 
 func (c *RenderingContext) GetActiveAttrib(program *types.Program, index uint) *types.ActiveInfo {
@@ -395,7 +415,7 @@ func (c *RenderingContext) GetAttribLocation(program *types.Program, name string
 }
 
 func (c *RenderingContext) GetBufferParameter(target types.GLEnum, pName types.GLEnum) int {
-	return c.js.Call("getBufferParameter", target, pName).Int()
+	return c.js.Call("getBufferParameter", uint32(target), uint32(pName)).Int()
 }
 
 func (c *RenderingContext) GetContextAttributes() *types.Attributes {
@@ -452,15 +472,15 @@ func (c *RenderingContext) GetExtensionLoseContext() *extensions.LoseContext {
 // TODO: Add other extensions
 
 func (c *RenderingContext) GetFramebufferAttachmentParameterInt(target types.GLEnum, attachment types.GLEnum, pName types.GLEnum) int {
-	return c.js.Call("getFramebufferAttachmentParameter", target, attachment, pName).Int()
+	return c.js.Call("getFramebufferAttachmentParameter", uint32(target), uint32(attachment), uint32(pName)).Int()
 }
 
 func (c *RenderingContext) GetFramebufferAttachmentParameterEnum(target types.GLEnum, attachment types.GLEnum, pName types.GLEnum) types.GLEnum {
-	return types.GLEnum(c.js.Call("getFramebufferAttachmentParameter", target, attachment, pName).Int())
+	return types.GLEnum(c.js.Call("getFramebufferAttachmentParameter", uint32(target), uint32(attachment), uint32(pName)).Int())
 }
 
 func (c *RenderingContext) GetFramebufferAttachmentParameterRenderBuffer(target types.GLEnum, attachment types.GLEnum, pName types.GLEnum) *types.RenderBuffer {
-	bufferJs := c.js.Call("getFramebufferAttachmentParameter", target, attachment, pName)
+	bufferJs := c.js.Call("getFramebufferAttachmentParameter", uint32(target), uint32(attachment), uint32(pName))
 	if bufferJs != js.Undefined() && bufferJs != js.Null() {
 		return types.NewRenderBuffer(bufferJs)
 	} else {
@@ -469,7 +489,7 @@ func (c *RenderingContext) GetFramebufferAttachmentParameterRenderBuffer(target 
 }
 
 func (c *RenderingContext) GetFramebufferAttachmentParameterTexture(target types.GLEnum, attachment types.GLEnum, pName types.GLEnum) *types.Texture {
-	textureJs := c.js.Call("getFramebufferAttachmentParameter", target, attachment, pName)
+	textureJs := c.js.Call("getFramebufferAttachmentParameter", uint32(target), uint32(attachment), uint32(pName))
 	if textureJs != js.Undefined() && textureJs != js.Null() {
 		return types.NewTexture(textureJs)
 	} else {
@@ -478,7 +498,7 @@ func (c *RenderingContext) GetFramebufferAttachmentParameterTexture(target types
 }
 
 func (c *RenderingContext) GetParameter(pName types.GLEnum) js.Value {
-	return c.js.Call("getParameter", pName)
+	return c.js.Call("getParameter", uint32(pName))
 }
 
 func (c *RenderingContext) GetParameterActiveTexture() types.GLEnum {
@@ -580,7 +600,7 @@ func (c *RenderingContext) GetParameterColorWritemask() [4]bool {
 	return arr
 }
 
-func (c *RenderingContext) GetParameterCompressedTextureFormats(pName string) []types.GLEnum {
+func (c *RenderingContext) GetParameterCompressedTextureFormats() []types.GLEnum {
 	arrJs := c.js.Call("getParameter", COMPRESSED_TEXTURE_FORMATS)
 	arr := make([]types.GLEnum, arrJs.Length())
 	for i := 0; i < arrJs.Length(); i++ {
@@ -902,7 +922,7 @@ func (c *RenderingContext) GetProgramInfoLog(program *types.Program) string {
 }
 
 func (c *RenderingContext) GetProgramParameter(program *types.Program, pName types.GLEnum) js.Value {
-	return c.js.Call("getProgramParameter", program.GetJs(), pName)
+	return c.js.Call("getProgramParameter", program.GetJs(), uint32(pName))
 }
 
 func (c *RenderingContext) GetProgramParameterDeleteStatus(program *types.Program) bool {
@@ -945,7 +965,7 @@ func (c *RenderingContext) GetProgramParameterActiveUniformBlocks(program *types
 }
 
 func (c *RenderingContext) GetRenderbufferParameter(target types.GLEnum, pName types.GLEnum) js.Value {
-	return c.js.Call("getRenderbufferParameter", target, pName)
+	return c.js.Call("getRenderbufferParameter", uint32(target), uint32(pName))
 }
 
 func (c *RenderingContext) GetRenderbufferParameterRenderBufferWidth(target types.GLEnum) int {
@@ -994,7 +1014,7 @@ func (c *RenderingContext) GetShaderInfoLog(shader *types.Shader) string {
 }
 
 func (c *RenderingContext) GetShaderParameter(shader *types.Shader, pName types.GLEnum) js.Value {
-	return c.js.Call("getShaderParameter", shader.GetJs(), pName)
+	return c.js.Call("getShaderParameter", shader.GetJs(), uint32(pName))
 }
 
 func (c *RenderingContext) GetShaderParameterDeleteStatus(shader *types.Shader) bool {
@@ -1010,7 +1030,7 @@ func (c *RenderingContext) GetShaderParameterShaderType(shader *types.Shader) ty
 }
 
 func (c *RenderingContext) GetShaderPrecisionFormat(shaderType types.GLEnum, precisionType types.GLEnum) *types.ShaderPrecisionFormat {
-	pFormatJs := c.js.Call("getShaderPrecisionFormat", shaderType, precisionType)
+	pFormatJs := c.js.Call("getShaderPrecisionFormat", uint32(shaderType), uint32(precisionType))
 	return types.NewShaderPrecisionFormat(
 		pFormatJs.Get("rangeMin").Int(),
 		pFormatJs.Get("rangeMax").Int(),
@@ -1022,7 +1042,7 @@ func (c *RenderingContext) GetShaderSource(shader *types.Shader) string {
 	return c.js.Call("getShaderSource", shader.GetJs()).String()
 }
 
-func (c *RenderingContext) GetSupportedExtensions(pName string) []extensions.Name {
+func (c *RenderingContext) GetSupportedExtensions() []extensions.Name {
 	arrJs := c.js.Call("getSupportedExtensions")
 	arr := make([]extensions.Name, arrJs.Length())
 	for i := 0; i < arrJs.Length(); i++ {
@@ -1032,7 +1052,7 @@ func (c *RenderingContext) GetSupportedExtensions(pName string) []extensions.Nam
 }
 
 func (c *RenderingContext) GetTexParameter(target types.GLEnum, pName types.GLEnum) js.Value {
-	return c.js.Call("getTexParameter", target, pName)
+	return c.js.Call("getTexParameter", uint32(target), uint32(pName))
 }
 
 func (c *RenderingContext) GetTexParameterMagFilter(target types.GLEnum) types.GLEnum {
@@ -1109,7 +1129,7 @@ func (c *RenderingContext) GetUniformLocation(program *types.Program, name strin
 }
 
 func (c *RenderingContext) GetVertexAttrib(index int, pName types.GLEnum) js.Value {
-	return c.js.Call("getVertexAttrib", index, pName)
+	return c.js.Call("getVertexAttrib", index, uint32(pName))
 }
 
 func (c *RenderingContext) GetVertexAttribArrayBufferBinding(index int) *types.Buffer {
@@ -1160,11 +1180,11 @@ func (c *RenderingContext) GetVertexAttribArrayDivisorAngle(index int) int {
 }
 
 func (c *RenderingContext) GetVertexAttribOffset(index int, pName types.GLEnum) int {
-	return c.js.Call("getVertexAttribOffset", index, pName).Int()
+	return c.js.Call("getVertexAttribOffset", index, uint32(pName)).Int()
 }
 
 func (c *RenderingContext) Hint(target types.GLEnum, mode types.GLEnum) {
-	c.js.Call("hint", target, mode)
+	c.js.Call("hint", uint32(target), uint32(mode))
 }
 
 func (c *RenderingContext) IsBuffer(buffer js.Value) bool {
@@ -1176,7 +1196,7 @@ func (c *RenderingContext) IsContextLost() bool {
 }
 
 func (c *RenderingContext) IsEnabled(cap types.GLEnum) bool {
-	return c.js.Call("isEnabled", cap).Bool()
+	return c.js.Call("isEnabled", uint32(cap)).Bool()
 }
 
 func (c *RenderingContext) IsFramebuffer(framebuffer js.Value) bool {
@@ -1209,7 +1229,7 @@ func (c *RenderingContext) LinkProgram(program *types.Program) {
 }
 
 func (c *RenderingContext) PixelStorei(pName types.GLEnum, param int) {
-	c.js.Call("pixelStorei", pName, param)
+	c.js.Call("pixelStorei", uint32(pName), param)
 }
 
 func (c *RenderingContext) PolygonOffset(factor float32, units float32) {
@@ -1217,21 +1237,21 @@ func (c *RenderingContext) PolygonOffset(factor float32, units float32) {
 }
 
 func (c *RenderingContext) ReadPixels(x, y int, width, height int, format types.GLEnum, pixels js.TypedArray) {
-	c.js.Call("readPixels", x, y, width, height, format, pixels)
+	c.js.Call("readPixels", x, y, width, height, uint32(format), pixels)
 }
 
 // WebGL 2.0
 func (c *RenderingContext) ReadPixelsOffset(x, y int, width, height int, format types.GLEnum, pixels js.TypedArray, dstOffset uint) {
-	c.js.Call("readPixels", x, y, width, height, format, pixels, dstOffset)
+	c.js.Call("readPixels", x, y, width, height, uint32(format), pixels, dstOffset)
 }
 
 // WebGL 2.0
 func (c *RenderingContext) ReadPixelsOffsetPointer(x, y int, width, height int, format types.GLEnum, offset int) {
-	c.js.Call("readPixels", x, y, width, height, format, offset)
+	c.js.Call("readPixels", x, y, width, height, uint32(format), offset)
 }
 
 func (c *RenderingContext) RenderbufferStorage(target types.GLEnum, internalFormat types.GLEnum, width, height int) {
-	c.js.Call("renderbufferStorage", target, internalFormat, width, height)
+	c.js.Call("renderbufferStorage", uint32(target), uint32(internalFormat), width, height)
 }
 
 func (c *RenderingContext) SampleCoverage(value float32, invert bool) {
@@ -1246,63 +1266,63 @@ func (c *RenderingContext) ShaderSource(shader *types.Shader, source string) {
 	c.js.Call("shaderSource", shader.GetJs(), source)
 }
 
-func (c *RenderingContext) StencilFunc(function types.GLEnum, ref int, mask uint) {
-	c.js.Call("stencilFunc", function, ref, mask)
+func (c *RenderingContext) StencilFunc(function types.GLEnum, ref int, mask uint32) {
+	c.js.Call("stencilFunc", uint32(function), ref, mask)
 }
 
-func (c *RenderingContext) StencilFuncSeparate(face types.GLEnum, function types.GLEnum, ref int, mask uint) {
-	c.js.Call("stencilFuncSeparate", face, function, ref, mask)
+func (c *RenderingContext) StencilFuncSeparate(face types.GLEnum, function types.GLEnum, ref int, mask uint32) {
+	c.js.Call("stencilFuncSeparate", uint32(face), function, ref, mask)
 }
 
-func (c *RenderingContext) StencilMask(mask uint) {
+func (c *RenderingContext) StencilMask(mask uint32) {
 	c.js.Call("stencilMask", mask)
 }
 
-func (c *RenderingContext) StencilMaskSeparate(face types.GLEnum, mask uint) {
-	c.js.Call("stencilMaskSeparate", face, mask)
+func (c *RenderingContext) StencilMaskSeparate(face types.GLEnum, mask uint32) {
+	c.js.Call("stencilMaskSeparate", uint32(face), mask)
 }
 
 func (c *RenderingContext) StencilOp(fail types.GLEnum, zFail types.GLEnum, zPass types.GLEnum) {
-	c.js.Call("stencilOp", fail, zFail, zPass)
+	c.js.Call("stencilOp", uint32(fail), uint32(zFail), zPass)
 }
 
 func (c *RenderingContext) StencilOpSeparate(face types.GLEnum, fail types.GLEnum, zFail types.GLEnum, zPass types.GLEnum) {
-	c.js.Call("stencilOpSeparate", face, fail, zFail, zPass)
+	c.js.Call("stencilOpSeparate", face, uint32(fail), uint32(zFail), zPass)
 }
 
 func (c *RenderingContext) TexImage2D(target types.GLEnum, level int, internalFormat types.GLEnum, width, height int, border int, format types.GLEnum, dataType types.GLEnum, pixels js.TypedArray) {
-	c.js.Call("texImage2D", target, level, internalFormat, width, height, border, format, dataType, pixels)
+	c.js.Call("texImage2D", uint32(target), level, uint32(internalFormat), width, height, border, uint32(format), uint32(dataType), pixels)
 }
 
 func (c *RenderingContext) TexImage2DHtmlElement(target types.GLEnum, level int, internalFormat types.GLEnum, format types.GLEnum, dataType types.GLEnum, pixels js.Value) {
-	c.js.Call("texImage2D", target, level, internalFormat, format, dataType, pixels)
+	c.js.Call("texImage2D", uint32(target), level, uint32(internalFormat), uint32(format), uint32(dataType), pixels)
 }
 
 // WebGL 2.0
 func (c *RenderingContext) TexImage2DOffset(target types.GLEnum, level int, internalFormat types.GLEnum, width, height int, border int, format types.GLEnum, dataType types.GLEnum, offset int) {
-	c.js.Call("texImage2D", target, level, internalFormat, width, height, border, format, dataType, offset)
+	c.js.Call("texImage2D", uint32(target), level, uint32(internalFormat), width, height, border, uint32(format), uint32(dataType), offset)
 }
 
 // WebGL 2.0
 func (c *RenderingContext) TexImage2DHtmlElement2(target types.GLEnum, level int, internalFormat types.GLEnum, width, height int, border int, format types.GLEnum, dataType types.GLEnum, source js.Value) {
-	c.js.Call("texImage2D", target, level, internalFormat, width, height, border, format, dataType, source)
+	c.js.Call("texImage2D", uint32(target), level, uint32(internalFormat), width, height, border, uint32(format), uint32(dataType), source)
 }
 
 // WebGL 2.0
 func (c *RenderingContext) TexImage2D2(target types.GLEnum, level int, internalFormat types.GLEnum, width, height int, border int, format types.GLEnum, dataType types.GLEnum, srcData []float32, srcOffset int) {
-	c.js.Call("texImage2D", target, level, internalFormat, width, height, border, format, dataType, js.TypedArrayOf(srcData), srcOffset)
+	c.js.Call("texImage2D", uint32(target), level, uint32(internalFormat), width, height, border, uint32(format), uint32(dataType), js.TypedArrayOf(srcData), srcOffset)
 }
 
 func (c *RenderingContext) TexParameterf(target types.GLEnum, pName types.GLEnum, param float32) {
-	c.js.Call("texParameterf", target, pName, param)
+	c.js.Call("texParameterf", uint32(target), uint32(pName), param)
 }
 
 func (c *RenderingContext) TexParameteri(target types.GLEnum, pName types.GLEnum, param int) {
-	c.js.Call("texParameteri", target, pName, param)
+	c.js.Call("texParameteri", uint32(target), uint32(pName), param)
 }
 
 func (c *RenderingContext) texParameterEnum(target types.GLEnum, pName types.GLEnum, param types.GLEnum) {
-	c.js.Call("texParameteri", target, pName, param)
+	c.js.Call("texParameteri", uint32(target), uint32(pName), uint32(param))
 }
 
 func (c *RenderingContext) TexParameterMagFilter(target types.GLEnum, param types.GLEnum) {
@@ -1354,26 +1374,26 @@ func (c *RenderingContext) TexParameterWrapR(target types.GLEnum, param types.GL
 }
 
 func (c *RenderingContext) TexSubImage2D(target types.GLEnum, level int, xOffset, yOffset int, width, height int, format types.GLEnum, dataType types.GLEnum, pixels js.TypedArray) {
-	c.js.Call("texSubImage2D", target, level, xOffset, yOffset, width, height, format, dataType, pixels)
+	c.js.Call("texSubImage2D", uint32(target), level, xOffset, yOffset, width, height, uint32(format), uint32(dataType), pixels)
 }
 
 func (c *RenderingContext) TexSubImage2DHtmlElement(target types.GLEnum, level int, xOffset, yOffset int, format types.GLEnum, dataType types.GLEnum, pixels js.Value) {
-	c.js.Call("texSubImage2D", target, level, xOffset, yOffset, format, dataType, pixels)
+	c.js.Call("texSubImage2D", uint32(target), level, xOffset, yOffset, uint32(format), uint32(dataType), pixels)
 }
 
 // WebGL 2.0
 func (c *RenderingContext) TexSubImage2DOffset(target types.GLEnum, level int, xOffset, yOffset int, format types.GLEnum, dataType types.GLEnum, offset int) {
-	c.js.Call("texSubImage2D", target, level, xOffset, yOffset, format, dataType, offset)
+	c.js.Call("texSubImage2D", uint32(target), level, xOffset, yOffset, uint32(format), uint32(dataType), offset)
 }
 
 // WebGL 2.0
 func (c *RenderingContext) TexSubImage2DOffset2(target types.GLEnum, level int, xOffset, yOffset int, width, height int, format types.GLEnum, dataType types.GLEnum, offset int) {
-	c.js.Call("texSubImage2D", target, level, xOffset, yOffset, width, height, format, dataType, offset)
+	c.js.Call("texSubImage2D", uint32(target), level, xOffset, yOffset, width, height, uint32(format), uint32(dataType), offset)
 }
 
 // WebGL 2.0
 func (c *RenderingContext) TexSubImage2DHtmlElement2(target types.GLEnum, level int, xOffset, yOffset int, width, height int, format types.GLEnum, dataType types.GLEnum, source js.Value) {
-	c.js.Call("texSubImage2D", target, level, xOffset, yOffset, width, height, format, dataType, source)
+	c.js.Call("texSubImage2D", uint32(target), level, xOffset, yOffset, width, height, uint32(format), uint32(dataType), source)
 }
 
 func (c *RenderingContext) Uniform1f(location *types.UniformLocation, v0 float32) {
@@ -1493,7 +1513,7 @@ func (c *RenderingContext) VertexAttrib4fv(index int, value []float32) {
 }
 
 func (c *RenderingContext) VertexAttribPointer(index int, size int, aType types.GLEnum, normalized bool, stride int, offset int) {
-	c.js.Call("vertexAttribPointer", index, size, aType, normalized, stride, offset)
+	c.js.Call("vertexAttribPointer", index, size, uint32(aType), normalized, stride, offset)
 }
 
 func (c *RenderingContext) Viewport(x int, y int, width int, height int) {

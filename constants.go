@@ -564,7 +564,7 @@ const (
 	TEXTURE_SWIZZLE_R                             types.GLEnum = 0x8E42
 	TEXTURE_WRAP_R                                types.GLEnum = 0x8072
 	TIMEOUT_EXPIRED                               types.GLEnum = 0x911B
-	TIMEOUT_IGNORED                               types.GLEnum = 0xFFFFFFFFFFFFFFFF
+	TIMEOUT_IGNORED                               types.GLEnum = 0xFFFFFFFF
 	TRANSFORM_FEEDBACK                            types.GLEnum = 0x8E22
 	TRANSFORM_FEEDBACK_ACTIVE                     types.GLEnum = 0x8E24
 	TRANSFORM_FEEDBACK_BINDING                    types.GLEnum = 0x8E25
