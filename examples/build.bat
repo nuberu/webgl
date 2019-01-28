@@ -8,6 +8,7 @@ mkdir dist
 
 call :Compile basic_triangle
 call :Compile rotating_cube
+call :Compile splashy
 exit /B %ERRORLEVEL%
 
 :Compile

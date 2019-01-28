@@ -36,6 +36,10 @@ func FromCanvas(canvasEl js.Value) (*RenderingContext, error) {
 	return WrapContext(jsContext), nil
 }
 
+func (c *RenderingContext) GetJs() js.Value {
+	return c.js
+}
+
 func (c *RenderingContext) GetDrawingBufferWidth() int {
 	return c.js.Get("drawingBufferWidth").Int()
 }
@@ -73,7 +77,7 @@ func (c *RenderingContext) BindBuffer(target types.GLEnum, buffer *types.Buffer)
 	}
 }
 
-func (c *RenderingContext) BindFramebuffer(target types.GLEnum, buffer *types.FrameBuffer) {
+func (c *RenderingContext) BindFrameBuffer(target types.GLEnum, buffer *types.FrameBuffer) {
 	if buffer == nil {
 		c.js.Call("bindFramebuffer", uint32(target), js.Null())
 	} else {
@@ -81,7 +85,7 @@ func (c *RenderingContext) BindFramebuffer(target types.GLEnum, buffer *types.Fr
 	}
 }
 
-func (c *RenderingContext) BindRenderbuffer(target types.GLEnum, buffer *types.RenderBuffer) {
+func (c *RenderingContext) BindRenderBuffer(target types.GLEnum, buffer *types.RenderBuffer) {
 	if buffer == nil {
 		c.js.Call("bindFramebuffer", uint32(target), js.Null())
 	} else {
@@ -343,7 +347,7 @@ func (c *RenderingContext) Disable(cap types.GLEnum) {
 	c.js.Call("disable", uint32(cap))
 }
 
-func (c *RenderingContext) DisableVertexAttribArray(index uint) {
+func (c *RenderingContext) DisableVertexAttribArray(index int) {
 	c.js.Call("disableVertexAttribArray", index)
 }
 
@@ -1294,8 +1298,36 @@ func (c *RenderingContext) StencilOpSeparate(face types.GLEnum, fail types.GLEnu
 	c.js.Call("stencilOpSeparate", face, uint32(fail), uint32(zFail), zPass)
 }
 
-func (c *RenderingContext) TexImage2D(target types.GLEnum, level int, internalFormat types.GLEnum, width, height int, border int, format types.GLEnum, dataType types.GLEnum, pixels js.TypedArray) {
-	c.js.Call("texImage2D", uint32(target), level, uint32(internalFormat), width, height, border, uint32(format), uint32(dataType), pixels)
+func (c *RenderingContext) TexImage2Dui8(target types.GLEnum, level int, internalFormat types.GLEnum, width, height int, border int, format types.GLEnum, pixels []uint8) {
+	if pixels == nil {
+		c.js.Call("texImage2D", uint32(target), level, uint32(internalFormat), width, height, border, uint32(format), uint32(UNSIGNED_BYTE), js.Null())
+	} else {
+		c.js.Call("texImage2D", uint32(target), level, uint32(internalFormat), width, height, border, uint32(format), uint32(UNSIGNED_BYTE), js.TypedArrayOf(pixels))
+	}
+}
+
+func (c *RenderingContext) TexImage2Dui16(target types.GLEnum, level int, internalFormat types.GLEnum, width, height int, border int, format types.GLEnum, dataType types.GLEnum, pixels []uint16) {
+	if pixels == nil {
+		c.js.Call("texImage2D", uint32(target), level, uint32(internalFormat), width, height, border, uint32(format), uint32(dataType), js.Null())
+	} else {
+		c.js.Call("texImage2D", uint32(target), level, uint32(internalFormat), width, height, border, uint32(format), uint32(dataType), js.TypedArrayOf(pixels))
+	}
+}
+
+func (c *RenderingContext) TexImage2Dui32(target types.GLEnum, level int, internalFormat types.GLEnum, width, height int, border int, format types.GLEnum, dataType types.GLEnum, pixels []uint32) {
+	if pixels == nil {
+		c.js.Call("texImage2D", uint32(target), level, uint32(internalFormat), width, height, border, uint32(format), uint32(dataType), js.Null())
+	} else {
+		c.js.Call("texImage2D", uint32(target), level, uint32(internalFormat), width, height, border, uint32(format), uint32(dataType), js.TypedArrayOf(pixels))
+	}
+}
+
+func (c *RenderingContext) TexImage2Df(target types.GLEnum, level int, internalFormat types.GLEnum, width, height int, border int, format types.GLEnum, pixels []float32) {
+	if pixels == nil {
+		c.js.Call("texImage2D", uint32(target), level, uint32(internalFormat), width, height, border, uint32(format), uint32(FLOAT), js.Null())
+	} else {
+		c.js.Call("texImage2D", uint32(target), level, uint32(internalFormat), width, height, border, uint32(format), uint32(FLOAT), js.TypedArrayOf(pixels))
+	}
 }
 
 func (c *RenderingContext) TexImage2DHtmlElement(target types.GLEnum, level int, internalFormat types.GLEnum, format types.GLEnum, dataType types.GLEnum, pixels js.Value) {
@@ -1416,48 +1448,48 @@ func (c *RenderingContext) Uniform1iv(location *types.UniformLocation, value []i
 	c.js.Call("uniform1iv", location.GetJs(), value)
 }
 
-func (c *RenderingContext) Uniform2f(location *types.UniformLocation, v0 float32) {
-	c.js.Call("uniform2f", location.GetJs(), v0)
+func (c *RenderingContext) Uniform2f(location *types.UniformLocation, v0 float32, v1 float32) {
+	c.js.Call("uniform2f", location.GetJs(), v0, v1)
 }
 
 func (c *RenderingContext) Uniform2fv(location *types.UniformLocation, value []float32) {
 	c.js.Call("uniform2fv", location.GetJs(), js.TypedArrayOf(value))
 }
 
-func (c *RenderingContext) Uniform2i(location *types.UniformLocation, v0 int) {
-	c.js.Call("uniform2i", location.GetJs(), v0)
+func (c *RenderingContext) Uniform2i(location *types.UniformLocation, v0 int, v1 int) {
+	c.js.Call("uniform2i", location.GetJs(), v0, v1)
 }
 
 func (c *RenderingContext) Uniform2iv(location *types.UniformLocation, value []int) {
 	c.js.Call("uniform2iv", location.GetJs(), value)
 }
 
-func (c *RenderingContext) Uniform3f(location *types.UniformLocation, v0 float32) {
-	c.js.Call("uniform3f", location.GetJs(), v0)
+func (c *RenderingContext) Uniform3f(location *types.UniformLocation, v0 float32, v1 float32, v2 float32) {
+	c.js.Call("uniform3f", location.GetJs(), v0, v1, v2)
 }
 
 func (c *RenderingContext) Uniform3fv(location *types.UniformLocation, value []float32) {
 	c.js.Call("uniform3fv", location.GetJs(), js.TypedArrayOf(value))
 }
 
-func (c *RenderingContext) Uniform3i(location *types.UniformLocation, v0 int) {
-	c.js.Call("uniform3i", location.GetJs(), v0)
+func (c *RenderingContext) Uniform3i(location *types.UniformLocation, v0 int, v1 int, v2 int) {
+	c.js.Call("uniform3i", location.GetJs(), v0, v1, v2)
 }
 
 func (c *RenderingContext) Uniform3iv(location *types.UniformLocation, value []int) {
 	c.js.Call("uniform3iv", location.GetJs(), value)
 }
 
-func (c *RenderingContext) Uniform4f(location *types.UniformLocation, v0 float32) {
-	c.js.Call("uniform4f", location.GetJs(), v0)
+func (c *RenderingContext) Uniform4f(location *types.UniformLocation, v0 float32, v1 float32, v2 float32, v3 float32) {
+	c.js.Call("uniform4f", location.GetJs(), v0, v1, v2, v3)
 }
 
 func (c *RenderingContext) Uniform4fv(location *types.UniformLocation, value []float32) {
 	c.js.Call("uniform4fv", location.GetJs(), js.TypedArrayOf(value))
 }
 
-func (c *RenderingContext) Uniform4i(location *types.UniformLocation, v0 int) {
-	c.js.Call("uniform4i", location.GetJs(), v0)
+func (c *RenderingContext) Uniform4i(location *types.UniformLocation, v0 int, v1 int, v2 int, v3 int) {
+	c.js.Call("uniform4i", location.GetJs(), v0, v1, v2, v3)
 }
 
 func (c *RenderingContext) Uniform4iv(location *types.UniformLocation, value []int) {
