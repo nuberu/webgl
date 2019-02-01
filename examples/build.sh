@@ -19,4 +19,3 @@ mkdir ./dist
 
 compile basic_triangle
 compile rotating_cube
-compile splashy

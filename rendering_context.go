@@ -183,8 +183,8 @@ func (c *RenderingContext) BufferSubDataUIWithOffset(target types.GLEnum, dstByt
 	c.js.Call("bufferSubData",  uint32(target), dstByteOffset, js.TypedArrayOf(srcData), srcOffset, length)
 }
 
-func (c *RenderingContext) CheckFramebufferStatus(target types.GLEnum) {
-	c.js.Call("checkFramebufferStatus",  uint32(target))
+func (c *RenderingContext) CheckFrameBufferStatus(target types.GLEnum) types.GLEnum {
+	return types.GLEnum(c.js.Call("checkFramebufferStatus",  uint32(target)).Int())
 }
 
 func (c *RenderingContext) Clear(mask uint32) {
@@ -375,11 +375,11 @@ func (c *RenderingContext) Flush() {
 	c.js.Call("flush")
 }
 
-func (c *RenderingContext) FramebufferRenderbuffer(target types.GLEnum, attachment types.GLEnum, renderBufferTarget types.GLEnum, renderBuffer *types.RenderBuffer) {
+func (c *RenderingContext) FrameBufferRenderbuffer(target types.GLEnum, attachment types.GLEnum, renderBufferTarget types.GLEnum, renderBuffer *types.RenderBuffer) {
 	c.js.Call("framebufferRenderbuffer", uint32(target), uint32(attachment), uint32(renderBufferTarget), renderBuffer.GetJs())
 }
 
-func (c *RenderingContext) FramebufferTexture2D(target types.GLEnum, attachment types.GLEnum, texTarget types.GLEnum, texture *types.Texture, level int) {
+func (c *RenderingContext) FrameBufferTexture2D(target types.GLEnum, attachment types.GLEnum, texTarget types.GLEnum, texture *types.Texture, level int) {
 	c.js.Call("framebufferTexture2D", uint32(target), uint32(attachment), uint32(texTarget), texture.GetJs(), level)
 }
 
@@ -479,15 +479,15 @@ func (c *RenderingContext) GetExtensionLoseContext() *extensions.LoseContext {
 
 // TODO: Add other extensions
 
-func (c *RenderingContext) GetFramebufferAttachmentParameterInt(target types.GLEnum, attachment types.GLEnum, pName types.GLEnum) int {
+func (c *RenderingContext) GetFrameBufferAttachmentParameterInt(target types.GLEnum, attachment types.GLEnum, pName types.GLEnum) int {
 	return c.js.Call("getFramebufferAttachmentParameter", uint32(target), uint32(attachment), uint32(pName)).Int()
 }
 
-func (c *RenderingContext) GetFramebufferAttachmentParameterEnum(target types.GLEnum, attachment types.GLEnum, pName types.GLEnum) types.GLEnum {
+func (c *RenderingContext) GetFrameBufferAttachmentParameterEnum(target types.GLEnum, attachment types.GLEnum, pName types.GLEnum) types.GLEnum {
 	return types.GLEnum(c.js.Call("getFramebufferAttachmentParameter", uint32(target), uint32(attachment), uint32(pName)).Int())
 }
 
-func (c *RenderingContext) GetFramebufferAttachmentParameterRenderBuffer(target types.GLEnum, attachment types.GLEnum, pName types.GLEnum) *types.RenderBuffer {
+func (c *RenderingContext) GetFrameBufferAttachmentParameterRenderBuffer(target types.GLEnum, attachment types.GLEnum, pName types.GLEnum) *types.RenderBuffer {
 	bufferJs := c.js.Call("getFramebufferAttachmentParameter", uint32(target), uint32(attachment), uint32(pName))
 	if bufferJs != js.Undefined() && bufferJs != js.Null() {
 		return types.NewRenderBuffer(bufferJs)
@@ -496,7 +496,7 @@ func (c *RenderingContext) GetFramebufferAttachmentParameterRenderBuffer(target 
 	}
 }
 
-func (c *RenderingContext) GetFramebufferAttachmentParameterTexture(target types.GLEnum, attachment types.GLEnum, pName types.GLEnum) *types.Texture {
+func (c *RenderingContext) GetFrameBufferAttachmentParameterTexture(target types.GLEnum, attachment types.GLEnum, pName types.GLEnum) *types.Texture {
 	textureJs := c.js.Call("getFramebufferAttachmentParameter", uint32(target), uint32(attachment), uint32(pName))
 	if textureJs != js.Undefined() && textureJs != js.Null() {
 		return types.NewTexture(textureJs)
@@ -1207,7 +1207,7 @@ func (c *RenderingContext) IsEnabled(cap types.GLEnum) bool {
 	return c.js.Call("isEnabled", uint32(cap)).Bool()
 }
 
-func (c *RenderingContext) IsFramebuffer(framebuffer js.Value) bool {
+func (c *RenderingContext) IsFrameBuffer(framebuffer js.Value) bool {
 	return c.js.Call("isFramebuffer", framebuffer).Bool()
 }
 
@@ -1298,7 +1298,7 @@ func (c *RenderingContext) StencilOpSeparate(face types.GLEnum, fail types.GLEnu
 	c.js.Call("stencilOpSeparate", face, uint32(fail), uint32(zFail), zPass)
 }
 
-func (c *RenderingContext) TexImage2Dui8(target types.GLEnum, level int, internalFormat types.GLEnum, width, height int, border int, format types.GLEnum, pixels []uint8) {
+func (c *RenderingContext) TexImage2Db(target types.GLEnum, level int, internalFormat types.GLEnum, width, height int, border int, format types.GLEnum, pixels []byte) {
 	if pixels == nil {
 		c.js.Call("texImage2D", uint32(target), level, uint32(internalFormat), width, height, border, uint32(format), uint32(UNSIGNED_BYTE), js.Null())
 	} else {
