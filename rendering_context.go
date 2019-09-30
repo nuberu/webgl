@@ -323,7 +323,7 @@ func (c *RenderingContext) DeleteShader(shader *types.Shader) {
 	c.js.Call("deleteShader", shader.GetJs())
 }
 
-func (c *RenderingContext) DeleteTexture(texture *types.Shader) {
+func (c *RenderingContext) DeleteTexture(texture *types.Texture) {
 	c.js.Call("deleteTexture", texture.GetJs())
 }
 
